@@ -5,10 +5,10 @@ import uuid
 def font_to_mobileconfig(font_path, output_path, font_name):
     with open(font_path, 'rb') as font_file:
         encoded_font = base64.b64encode(font_file.read()).decode('utf-8')
-    
+
     payload_uuid = str(uuid.uuid4())
     font_payload_uuid = str(uuid.uuid4())
-    
+
     mobileconfig_content = f"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -37,13 +37,13 @@ def font_to_mobileconfig(font_path, output_path, font_name):
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadIdentifier</key>
-    <string>com.example.profile</string>
+    <string>com.example.profile.{font_name}</string>
     <key>PayloadUUID</key>
     <string>{payload_uuid}</string>
     <key>PayloadVersion</key>
     <integer>1</integer>
     <key>PayloadDisplayName</key>
-    <string>Font Profile</string>
+    <string>Font Profile - {font_name}</string>
 </dict>
 </plist>
 """
@@ -54,9 +54,9 @@ def font_to_mobileconfig(font_path, output_path, font_name):
 
 def main():
     font_path = input("フォントファイルのパスを入力してください: ").strip()
-    output_path = input("出力するmobileconfigファイルのパスを入力してください: ").strip()
+    output_path = input("出力するmobileconfigファイルのパスを入力してください(.mobileconfigで): ").strip()
     font_name = input("フォントの名前を入力してください: ").strip()
-    
+
     font_to_mobileconfig(font_path, output_path, font_name)
 
 if __name__ == "__main__":
